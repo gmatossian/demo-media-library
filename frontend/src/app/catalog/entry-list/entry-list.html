@@ -1,0 +1,103 @@
+<div class="page-heading">
+  <h1>Catalog</h1>
+  <a class="button button-primary" routerLink="/entries/new">Add entry</a>
+</div>
+
+<form class="filters" role="search" (submit)="$event.preventDefault()">
+  <div class="field">
+    <label for="catalog-search">Search titles</label>
+    <input
+      id="catalog-search"
+      type="search"
+      autocomplete="off"
+      placeholder="e.g. harbour"
+      [formControl]="searchControl"
+    />
+  </div>
+  <div class="field">
+    <label for="catalog-type">Type</label>
+    <select id="catalog-type" [formControl]="typeControl">
+      <option value="">All types</option>
+      @for (type of mediaTypes; track type) {
+        <option [value]="type">{{ typeLabels[type] }}</option>
+      }
+    </select>
+  </div>
+  <button type="button" class="button" (click)="clearFilters()" [disabled]="!hasFilters(state().requested)">
+    Clear
+  </button>
+</form>
+
+@let current = state();
+
+<div class="results" [attr.aria-busy]="current.loading">
+  @if (current.error) {
+    <div class="message message-error" role="alert">
+      <p>Could not load the catalog. {{ current.error }}</p>
+      <button type="button" class="button" (click)="retry()">Try again</button>
+    </div>
+  } @else if (current.result; as result) {
+    <p class="summary" role="status">
+      @if (current.loading) {
+        Updating…
+      } @else {
+        {{ result.entries.length }} {{ result.entries.length === 1 ? 'entry' : 'entries' }}
+        @if (result.filters.q) {
+          with “{{ result.filters.q }}” in the title
+        }
+        @if (result.filters.type) {
+          · {{ typeLabels[result.filters.type] }}s only
+        }
+      }
+    </p>
+
+    @if (result.entries.length > 0) {
+      <table class="catalog-table">
+        <thead>
+          <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Type</th>
+            <th scope="col" class="creator">Creator</th>
+            <th scope="col" class="year">Year</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (entry of result.entries; track entry.id) {
+            <tr>
+              <td>
+                <a [routerLink]="['/entries', entry.id]">{{ entry.title }}</a>
+                <!-- Narrow screens show the creator here instead of in its own column; only one is displayed. -->
+                <span class="creator-inline">{{ entry.creator }}</span>
+              </td>
+              <td><span class="badge">{{ typeLabels[entry.type] }}</span></td>
+              <td class="creator">{{ entry.creator }}</td>
+              <td class="year">
+                @if (entry.releaseYear !== null) {
+                  {{ entry.releaseYear }}
+                } @else {
+                  <span class="muted" aria-hidden="true">—</span>
+                  <span class="visually-hidden">Not recorded</span>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    } @else if (hasFilters(result.filters)) {
+      <div class="message">
+        <p>No entries match these filters.</p>
+        <button type="button" class="button" (click)="clearFilters()">Clear filters</button>
+      </div>
+    } @else {
+      <div class="message">
+        <p>The catalog is empty.</p>
+        <p>
+          <a routerLink="/entries/new">Add an entry</a>, or use “Reset demo data” at the top of the page to
+          restore the sample catalog.
+        </p>
+      </div>
+    }
+  } @else {
+    <p class="summary" role="status">Loading catalog…</p>
+  }
+</div>

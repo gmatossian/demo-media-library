@@ -1,0 +1,18 @@
+@if (!confirming()) {
+  <button type="button" class="link-button" (click)="ask()">Reset demo data</button>
+} @else {
+  <div class="confirm-reset" role="group" aria-labelledby="reset-question">
+    <p id="reset-question">
+      Replace <strong>every</strong> catalog entry with the sample catalog? Entries you added or changed will be lost.
+    </p>
+    <div class="actions">
+      <button type="button" class="button button-danger" [disabled]="resetting()" (click)="reset()">
+        {{ resetting() ? 'Resetting…' : 'Reset catalog' }}
+      </button>
+      <button #cancelButton type="button" class="button" [disabled]="resetting()" (click)="cancel()">Cancel</button>
+    </div>
+    @if (error(); as message) {
+      <p class="reset-error" role="alert">{{ message }}</p>
+    }
+  </div>
+}

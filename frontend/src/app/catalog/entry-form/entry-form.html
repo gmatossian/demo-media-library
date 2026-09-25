@@ -1,0 +1,121 @@
+@let load = loadState();
+
+@if (load.status === 'loading') {
+  <p role="status">Loading entry…</p>
+} @else if (load.status === 'not-found') {
+  <h1>Entry not found</h1>
+  <p>This catalog entry does not exist, so it cannot be edited. It may have been deleted.</p>
+  <p><a routerLink="/entries">Go to the catalog</a></p>
+} @else if (load.status === 'error') {
+  <div class="message message-error" role="alert">
+    <p>Could not load this entry for editing. {{ load.message }}</p>
+  </div>
+} @else {
+  @let existing = load.status === 'loaded' ? load.entry : null;
+
+  <h1>{{ existing ? 'Edit entry' : 'Add entry' }}</h1>
+  <p class="muted intro">
+    Catalog entries describe a book, film, or album. No media files are uploaded or stored.
+  </p>
+
+  <form class="entry-form" [formGroup]="form" (ngSubmit)="save(existing)" novalidate>
+    <div class="field">
+      <label for="entry-type">Type</label>
+      <select
+        id="entry-type"
+        formControlName="type"
+        [attr.aria-invalid]="errorFor('type') ? true : null"
+        [attr.aria-describedby]="errorFor('type') ? 'entry-type-error' : null"
+      >
+        <option value="" disabled>Select a type</option>
+        @for (type of mediaTypes; track type) {
+          <option [value]="type">{{ typeLabels[type] }}</option>
+        }
+      </select>
+      @if (errorFor('type'); as message) {
+        <p id="entry-type-error" class="field-error">{{ message }}</p>
+      }
+    </div>
+
+    <div class="field">
+      <label for="entry-title">Title</label>
+      <input
+        id="entry-title"
+        type="text"
+        formControlName="title"
+        autocomplete="off"
+        [attr.aria-invalid]="errorFor('title') ? true : null"
+        [attr.aria-describedby]="errorFor('title') ? 'entry-title-error' : null"
+      />
+      @if (errorFor('title'); as message) {
+        <p id="entry-title-error" class="field-error">{{ message }}</p>
+      }
+    </div>
+
+    <div class="field">
+      <label for="entry-creator">{{ creatorLabel() }}</label>
+      <input
+        id="entry-creator"
+        type="text"
+        formControlName="creator"
+        autocomplete="off"
+        [attr.aria-invalid]="errorFor('creator') ? true : null"
+        [attr.aria-describedby]="errorFor('creator') ? 'entry-creator-error' : null"
+      />
+      @if (errorFor('creator'); as message) {
+        <p id="entry-creator-error" class="field-error">{{ message }}</p>
+      }
+    </div>
+
+    <div class="field">
+      <label for="entry-year">Release year <span class="optional">(optional)</span></label>
+      <input
+        id="entry-year"
+        class="year-input"
+        type="text"
+        inputmode="numeric"
+        formControlName="releaseYear"
+        autocomplete="off"
+        [attr.aria-invalid]="errorFor('releaseYear') ? true : null"
+        [attr.aria-describedby]="'entry-year-hint' + (errorFor('releaseYear') ? ' entry-year-error' : '')"
+      />
+      <p id="entry-year-hint" class="hint">{{ limits.yearMin }}–{{ limits.yearMax }}. Leave blank if unknown.</p>
+      @if (errorFor('releaseYear'); as message) {
+        <p id="entry-year-error" class="field-error">{{ message }}</p>
+      }
+    </div>
+
+    <div class="field">
+      <label for="entry-description">Description <span class="optional">(optional)</span></label>
+      <textarea
+        id="entry-description"
+        rows="6"
+        formControlName="description"
+        [attr.aria-invalid]="errorFor('description') ? true : null"
+        [attr.aria-describedby]="'entry-description-count' + (errorFor('description') ? ' entry-description-error' : '')"
+      ></textarea>
+      <p id="entry-description-count" class="hint">
+        Plain text; line breaks are kept. {{ descriptionLength() }} / {{ limits.descriptionMaxLength }} characters.
+      </p>
+      @if (errorFor('description'); as message) {
+        <p id="entry-description-error" class="field-error">{{ message }}</p>
+      }
+    </div>
+
+    @if (failure(); as failed) {
+      <div class="message message-error" role="alert">
+        <p>{{ failed.message }}</p>
+        @if (failed.check; as check) {
+          <p><a [href]="check.url" target="_blank" rel="noopener">{{ check.label }}</a></p>
+        }
+      </div>
+    }
+
+    <div class="actions">
+      <button type="submit" class="button button-primary" [disabled]="saving()">
+        {{ saving() ? 'Saving…' : existing ? 'Save changes' : 'Add entry' }}
+      </button>
+      <a class="button" [routerLink]="existing ? ['/entries', existing.id] : ['/entries']">Cancel</a>
+    </div>
+  </form>
+}

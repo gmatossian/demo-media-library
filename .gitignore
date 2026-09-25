@@ -1,0 +1,5 @@
+.DS_Store
+
+# Backend build output and local runtime data (H2 database files)
+backend/target/
+backend/data/

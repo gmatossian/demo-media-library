@@ -1,0 +1,80 @@
+<p class="back-link"><a routerLink="/entries">← Back to catalog</a></p>
+
+@let s = state();
+
+@if (s.status === 'loading') {
+  <p role="status">Loading entry…</p>
+} @else if (s.status === 'not-found') {
+  <h1>Entry not found</h1>
+  <p>This catalog entry does not exist. It may have been deleted, or the link may be wrong.</p>
+  <p><a routerLink="/entries">Go to the catalog</a></p>
+} @else if (s.status === 'error') {
+  <div class="message message-error" role="alert">
+    <p>Could not load this entry. {{ s.message }}</p>
+  </div>
+} @else {
+  @let entry = s.entry;
+  <article class="entry">
+    <span class="badge">{{ typeLabels[entry.type] }}</span>
+    <h1>{{ entry.title }}</h1>
+
+    <dl class="fields">
+      <dt>{{ creatorLabels[entry.type] }}</dt>
+      <dd>{{ entry.creator }}</dd>
+
+      <dt>Release year</dt>
+      <dd>
+        @if (entry.releaseYear !== null) {
+          {{ entry.releaseYear }}
+        } @else {
+          <span class="muted">Not recorded</span>
+        }
+      </dd>
+
+      <dt>Description</dt>
+      <dd>
+        @if (entry.description !== null) {
+          <p class="description">{{ entry.description }}</p>
+        } @else {
+          <span class="muted">No description</span>
+        }
+      </dd>
+
+      <dt>Added</dt>
+      <dd><time [attr.datetime]="entry.createdAt">{{ entry.createdAt | date: 'medium' }}</time></dd>
+
+      <dt>Last updated</dt>
+      <dd><time [attr.datetime]="entry.updatedAt">{{ entry.updatedAt | date: 'medium' }}</time></dd>
+    </dl>
+
+    @if (!confirmingDelete()) {
+      <div class="actions">
+        <a class="button button-primary" [routerLink]="['/entries', entry.id, 'edit']">Edit</a>
+        <button type="button" class="button button-danger-outline" (click)="askToDelete()">Delete</button>
+      </div>
+    } @else {
+      <div class="confirm" role="group" aria-labelledby="delete-question">
+        <p id="delete-question">
+          <strong>Delete “{{ entry.title }}”?</strong> This removes the catalog entry permanently.
+        </p>
+        <div class="actions">
+          <button
+            type="button"
+            class="button button-danger"
+            [disabled]="deleting()"
+            (click)="confirmDelete(entry)"
+          >
+            {{ deleting() ? 'Deleting…' : 'Delete entry' }}
+          </button>
+          <button #cancelDeleteButton type="button" class="button" [disabled]="deleting()" (click)="cancelDelete()">
+            Cancel
+          </button>
+        </div>
+      </div>
+    }
+
+    @if (deleteError(); as message) {
+      <div class="message message-error" role="alert"><p>{{ message }}</p></div>
+    }
+  </article>
+}

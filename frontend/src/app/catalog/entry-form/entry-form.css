@@ -1,0 +1,38 @@
+.intro {
+  margin-top: -0.5rem;
+}
+
+.entry-form {
+  max-width: 36rem;
+}
+
+.entry-form input[type='text'],
+.entry-form select,
+.entry-form textarea {
+  width: 100%;
+}
+
+.entry-form input.year-input {
+  width: 8rem;
+}
+
+.optional {
+  font-weight: normal;
+  color: var(--text-muted);
+}
+
+.hint {
+  margin: 0.25rem 0 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.field-error {
+  margin: 0.25rem 0 0;
+  font-size: 0.9rem;
+  color: var(--danger);
+}
+
+.entry-form [aria-invalid='true'] {
+  border-color: var(--danger);
+}

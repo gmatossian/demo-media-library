@@ -1,0 +1,48 @@
+.entry h1 {
+  margin-top: 0.4rem;
+  overflow-wrap: anywhere;
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.6rem 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.fields dt {
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.fields dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.description {
+  margin: 0;
+  white-space: pre-line;
+}
+
+.confirm {
+  border: 1px solid var(--danger);
+  border-radius: var(--radius);
+  padding: 1rem;
+  background: var(--danger-bg);
+}
+
+.confirm p {
+  margin-top: 0;
+}
+
+@media (max-width: 30rem) {
+  .fields {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+  }
+
+  .fields dd {
+    margin-bottom: 0.6rem;
+  }
+}

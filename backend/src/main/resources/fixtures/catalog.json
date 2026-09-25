@@ -1,0 +1,86 @@
+[
+  {
+    "type": "BOOK",
+    "title": "The Lighthouse Ledger",
+    "creator": "Mara Quillon",
+    "releaseYear": 1987,
+    "description": "A keeper's account book becomes a record of every ship that never arrived.\n\nFictional sample entry."
+  },
+  {
+    "type": "FILM",
+    "title": "The Lighthouse Ledger",
+    "creator": "Tamsin Okoro",
+    "releaseYear": 1995,
+    "description": "Film adaptation of the novel of the same name. Same title, different type."
+  },
+  {
+    "type": "BOOK",
+    "title": "Salt & Circuitry",
+    "creator": "Idris Venhale",
+    "releaseYear": 2014,
+    "description": "Essays on coastal towns that rebuilt themselves around repair shops."
+  },
+  {
+    "type": "BOOK",
+    "title": "an index of small rivers",
+    "creator": "Pell Adebayo-Strand",
+    "releaseYear": null,
+    "description": "Poems, one for each stream the author could not find on a map. Release year unknown."
+  },
+  {
+    "type": "BOOK",
+    "title": "100% Cotton Clouds",
+    "creator": "Juno Marchetti",
+    "releaseYear": 2021,
+    "description": "A picture book about weather that refuses to be forecast."
+  },
+  {
+    "type": "FILM",
+    "title": "Night Train to Verrow",
+    "creator": "Emil Castellane",
+    "releaseYear": 1962,
+    "description": "Six strangers, one sleeper carriage, and a station that is not on the timetable."
+  },
+  {
+    "type": "FILM",
+    "title": "snake_case Summer",
+    "creator": "Rory Delacroix-Ng",
+    "releaseYear": 2019,
+    "description": "A comedy about two programmers who spend a heatwave renaming everything."
+  },
+  {
+    "type": "FILM",
+    "title": "Glass Harbour",
+    "creator": "Anouk Brevik",
+    "releaseYear": null,
+    "description": null
+  },
+  {
+    "type": "ALBUM",
+    "title": "Glass Harbour",
+    "creator": "The Quiet Arrangements",
+    "releaseYear": 2003,
+    "description": "Ten instrumental tracks recorded in an empty ferry terminal."
+  },
+  {
+    "type": "ALBUM",
+    "title": "Evening Static",
+    "creator": "Lumen & The Tidewater",
+    "releaseYear": 1979,
+    "description": "Late-night radio songs. This record appears twice on purpose: duplicates are allowed."
+  },
+  {
+    "type": "ALBUM",
+    "title": "Evening Static",
+    "creator": "Lumen & The Tidewater",
+    "releaseYear": 1979,
+    "description": "Late-night radio songs. This record appears twice on purpose: duplicates are allowed."
+  },
+  {
+    "type": "ALBUM",
+    "title": "Orbit of Paper Cranes",
+    "creator": "Sable Ito",
+    "releaseYear": 2024,
+    "description": null
+  }
+]

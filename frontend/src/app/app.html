@@ -1,0 +1,28 @@
+<header class="site-header">
+  <div class="container header-row">
+    <div class="brand">
+      <a routerLink="/entries" class="brand-name">Media Library</a>
+      <span class="demo-label">Demo only · fictional data</span>
+    </div>
+    <app-demo-reset />
+  </div>
+</header>
+
+<main class="container">
+  @if (notices.message(); as message) {
+    <div class="message message-success notice" role="status">
+      <p>{{ message }}</p>
+      <button type="button" class="link-button" (click)="notices.dismiss()" aria-label="Dismiss message">
+        Dismiss
+      </button>
+    </div>
+  }
+  <router-outlet />
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    A demo catalog for learning and practice, not for production use. It stores descriptive records of books,
+    films, and albums only: no media files, playback, or downloads.
+  </div>
+</footer>
